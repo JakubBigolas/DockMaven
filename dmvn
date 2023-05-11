@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# project path
+DOCK_MAVEN_HOME="C:\Users\jakub.bigolas\OneDrive/DockMaven"
+
+# import config file
+. "$DOCK_MAVEN_HOME/config/config.sh"
+
+# import and start engine
+. "$DOCK_MAVEN_HOME/engine/engine-embed.sh"
+engineCreateContext "$DOCK_MAVEN_HOME"
+engineStart         "$DOCK_MAVEN_HOME" "$@"
