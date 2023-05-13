@@ -40,7 +40,21 @@ function main {
       --mvn-clean                       ) default_mvn_clean="--mvn-clean"               ; shift         ;;
 
       # maven configuration project selection
-      --project                         ) selectedProjects+=("$2")                      ; shift ; shift ;;
+      --project                         )
+        if [[ "$2" =~ \* ]] ; then
+          local projectsDir="${DMVN_PROJECTS_DIR//\\//}/projects"
+          local subProjects=$(eval echo "$projectsDir/$2")
+          subProjects=${subProjects//" $projectsDir/"/$'\n'}
+          subProjects=${subProjects/#"$projectsDir/"/}
+          readarray -t subProjects < <(echo "$subProjects")
+          for subProject in "${subProjects[@]}" ; do
+            [[ -d "$projectsDir/$subProject" ]] && selectedProjects+=("$subProject")
+          done
+        else
+          selectedProjects+=("$2")
+        fi
+
+        shift ; shift ;;
 
       # ommit empty args
       "") shift ;;
@@ -67,6 +81,13 @@ function main {
 
   # if there is any configuration project selected then for each:
   else
+
+    echo "@@@ dmvn build queue: "
+    local project=
+    for project in "${selectedProjects[@]}" ; do
+      echo " - $project"
+    done
+
     local project=
     for project in "${selectedProjects[@]}" ; do
 
