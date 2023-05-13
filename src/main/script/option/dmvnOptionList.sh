@@ -93,14 +93,14 @@ function dmvnOptionList {
   [[ $printFormatted = true ]] && echo "Final result: "
 
   # run maven process using project, sub projects and default parametrization
-  [[ -n "$project_package"                          ]] && echo "--package"                          && echo "$project_package"
-  [[ -n "$project_app_name"                         ]] && echo "--app-name"                         && echo "$project_app_name"
-  [[ -n "$project_scr_path"                         ]] && echo "--src-path"                         && echo "$project_scr_path"
-  [[ -n "$project_mvn_image_name"                   ]] && echo "--mvn-image-name"                   && echo "$project_mvn_image_name"
-  [[ -n "$project_mvn_container_env_APP_NAME"       ]] && echo "--mvn-container-env-app-name"       && echo "$project_mvn_container_env_APP_NAME"
-  [[ -n "$project_mvn_container_env_TARGET_DIR"     ]] && echo "--mvn-container-env-target-dir"     && echo "$project_mvn_container_env_TARGET_DIR"
-  [[ -n "$project_mvn_container_env_BUILD_CMD"      ]] && echo "--mvn-container-env-build-cmd"      && echo "$project_mvn_container_env_BUILD_CMD"
-  [[ -n "$project_mvn_container_env_BUILD_PROFILES" ]] && echo "--mvn-container-env-build-profiles" && echo "$project_mvn_container_env_BUILD_PROFILES"
+  [[ -n "$project_package"                          ]] && echo "--package"                          && eval echo "$project_package"
+  [[ -n "$project_app_name"                         ]] && echo "--app-name"                         && eval echo "$project_app_name"
+  [[ -n "$project_scr_path"                         ]] && echo "--src-path"                         && eval echo "$project_scr_path"
+  [[ -n "$project_mvn_image_name"                   ]] && echo "--mvn-image-name"                   && eval echo "$project_mvn_image_name"
+  [[ -n "$project_mvn_container_env_APP_NAME"       ]] && echo "--mvn-container-env-app-name"       && eval echo "$project_mvn_container_env_APP_NAME"
+  [[ -n "$project_mvn_container_env_TARGET_DIR"     ]] && echo "--mvn-container-env-target-dir"     && eval echo "$project_mvn_container_env_TARGET_DIR"
+  [[ -n "$project_mvn_container_env_BUILD_CMD"      ]] && echo "--mvn-container-env-build-cmd"      && eval echo "$project_mvn_container_env_BUILD_CMD"
+  [[ -n "$project_mvn_container_env_BUILD_PROFILES" ]] && echo "--mvn-container-env-build-profiles" && eval echo "$project_mvn_container_env_BUILD_PROFILES"
 
 
 }
