@@ -4,10 +4,14 @@ function dmvnHelp {
   echo -e ""
   echo -e "DockMaven provides solution for simplify usage maven with docker container \"maven-builder-*\""
   echo -e ""
-  echo -e "Usage: dmvn [arguments...]"
+  echo -e "Usage: dmvn [arguments...]|[list]"
+  echo -e ""
+  echo -e "Options:"
+  toolHelpOptionPrint 'list *'                             'prints configuration from selected package,'                              20
+  toolHelpOptionPrint ''                                   'to print every package separated use additional argument -f '            20
   echo -e ""
   echo -e "Arguments:"
-  toolHelpOptionPrint '--help|help|-?  '                     'print help info and exit'                                              20
+  toolHelpOptionPrint '--help|help|-?'                     'print help info and exit'                                                20
   toolHelpOptionPrint '--version|version|-v'               'print version info and exit'                                             20
   toolHelpOptionPrint '--mvn-projects-dir'                 'print maven project configuration path variable and exit'                20
   toolHelpOptionPrint '--project'                          'select maven project configuration path'                                 20

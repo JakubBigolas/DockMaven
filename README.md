@@ -5,8 +5,11 @@ It is well-designed to work with PocketEngine project.
 
 ### Usage: 
 ```bash
-dmvn [arguments...]
+dmvn [arguments...]|[list]
 ```
+
+### Options:
+- `list *`               - prints configuration from selected package, to print every package separated use additional argument `-f`
 
 ### Arguments:
 - `--help|help|-?`       - print help info and exit
@@ -45,7 +48,7 @@ Script will perform 3 maven processes, each with arguments for:
 - first process
   - `--package my/package` from file `/$DMVN_PROJECTS_DIR/projects/package`
   - `--app-name my-app` from file `/$DMVN_PROJECTS_DIR/projects/project-path/to/project1/app-name`
-  - `--mvn-image-name maven-builder-jdk-8` from command line (command line has the highest priority)
+  - `--mvn-image-name maven-builder-jdk-17` from file `/$DMVN_PROJECTS_DIR/projects/project-path/to/project1/mvn-image-name`
 - second process
   - `--package other/package` from file `/$DMVN_PROJECTS_DIR/projects/project-path/to/project2/package`
   - `--app-name my-app2` from file `/$DMVN_PROJECTS_DIR/projects/project-path/to/project2/app-name`

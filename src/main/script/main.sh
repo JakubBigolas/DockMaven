@@ -20,10 +20,13 @@ function main {
       --help|help|"-?"                  ) dmvnHelp ; exit 0 ;;
 
       # print version info and exit
-      --version|-v|version              ) echo "1.0.0" ; exit 0 ;;
+      --version|-v|version              ) echo "1.0.1" ; exit 0 ;;
 
       # print maven projects configuration directory path and exit
       --mvn-projects-dir                ) echo "$DMVN_PROJECTS_DIR" ; exit 0 ;;
+
+      # print configuration from selected path
+      list) shift ; dmvnOptionList "$@" ; exit 0 ;;
 
       # maven builder process parametrization
       --package                         ) default_package="$2"                          ; shift ; shift ;;
@@ -77,34 +80,25 @@ function main {
       local project_mvn_container_env_BUILD_CMD="$default_mvn_container_env_BUILD_CMD"
       local project_mvn_container_env_BUILD_PROFILES="$default_mvn_container_env_BUILD_PROFILES"
 
-      # prepare full package path to project configuration, starting from "projects/" directory
-      local fullPackage="projects/$project"
-            fullPackage="${fullPackage/"\\"//}"
+      # override default values with project values
+      local configFromProject=()
+      readarray -t configFromProject < <(   dmvnOptionList "$project"   )
+      local index=0
+      while [[ $index -lt ${#configFromProject[@]} ]] ; do
 
-      # create array from all available paths between first and last directory in full package path in ascending queue
-      local packagesQueue=()
-      local lastPackage="${fullPackage/"/"*/}"
-      packagesQueue+=("$lastPackage")
-      while [[ "$lastPackage" != "$fullPackage" ]] ; do
-        local nextPackage="${fullPackage/#"$lastPackage/"/}"
-              nextPackage="${nextPackage/"/"*/}"
-        lastPackage+="/$nextPackage"
-        packagesQueue+=("$lastPackage")
-      done
-
-      # for every path in array from all available paths, overwrite configuration variables (applied only for configuration file occurrences)
-      for dir in "${packagesQueue[@]}" ; do
-
-        local packageDir="$DMVN_PROJECTS_DIR/$dir"
-
-        [[ -f "$packageDir/package"                          ]] && project_package="$(head -n 1                           "$packageDir/package"                          )"
-        [[ -f "$packageDir/app-name"                         ]] && project_app_name="$(head -n 1                          "$packageDir/app-name"                         )"
-        [[ -f "$packageDir/src-path"                         ]] && project_scr_path="$(head -n 1                          "$packageDir/src-path"                         )"
-        [[ -f "$packageDir/mvn-image-name"                   ]] && project_mvn_image_name="$(head -n 1                    "$packageDir/mvn-image-name"                   )"
-        [[ -f "$packageDir/mvn-container-env-app-name"       ]] && project_mvn_container_env_APP_NAME="$(head -n 1        "$packageDir/mvn-container-env-app-name"       )"
-        [[ -f "$packageDir/mvn-container-env-target-dir"     ]] && project_mvn_container_env_TARGET_DIR="$(head -n 1      "$packageDir/mvn-container-env-target-dir"     )"
-        [[ -f "$packageDir/mvn-container-env-build-cmd"      ]] && project_mvn_container_env_BUILD_CMD="$(head -n 1       "$packageDir/mvn-container-env-build-cmd"      )"
-        [[ -f "$packageDir/mvn-container-env-build-profiles" ]] && project_mvn_container_env_BUILD_PROFILES="$(head -n 1  "$packageDir/mvn-container-env-build-profiles" )"
+        item="${configFromProject[index]}"
+        value="${configFromProject[index + 1]}"
+        case $item in
+          --package)                          project_package="$value"                          && index=$((index + 1)) ;;
+          --app-name)                         project_app_name="$value"                         && index=$((index + 1)) ;;
+          --src-path)                         project_scr_path="$value"                         && index=$((index + 1)) ;;
+          --mvn-image-name)                   project_mvn_image_name="$value"                   && index=$((index + 1)) ;;
+          --mvn-container-env-app-name)       project_mvn_container_env_APP_NAME="$value"       && index=$((index + 1)) ;;
+          --mvn-container-env-target-dir)     project_mvn_container_env_TARGET_DIR="$value"     && index=$((index + 1)) ;;
+          --mvn-container-env-build-cmd)      project_mvn_container_env_BUILD_CMD="$value"      && index=$((index + 1)) ;;
+          --mvn-container-env-build-profiles) project_mvn_container_env_BUILD_PROFILES="$value" && index=$((index + 1)) ;;
+        esac
+        index=$((index + 1))
 
       done
 
