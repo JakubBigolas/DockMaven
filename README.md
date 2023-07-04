@@ -8,7 +8,7 @@ It is well-designed to work with PocketEngine project.
 dmvn [arguments...]|[list]
 ```
 
-### Options:
+### OptionContext:
 - `list *`               - prints configuration from selected package, to print every package separated use additional argument `-f`
 
 ### Arguments:

@@ -62,6 +62,7 @@ function process {
     mvn clean -f "$pom_path"
   fi
 
+  local failCheck=false
   echo "@@@ starting builder container $mvn_container_name"
   docker kill "$mvn_container_name"
   docker rm   "$mvn_container_name"
@@ -74,7 +75,7 @@ function process {
     -v "$mvn_container_name:/usr/src/mymaven/$app_name"           \
     -v "$target_path":/builds                                     \
     -v        m2cache:/root/.m2                                   \
-    --name "$mvn_container_name" $mvn_image_name
+    --name "$mvn_container_name" $mvn_image_name || failCheck=true
 
   local end_script=`date +%s`;
   local diff=`expr $end_script - $start_script`;
@@ -82,5 +83,8 @@ function process {
   local min=`expr $diff / 60`;
   local sec=`expr $diff % 60`;
   echo build $image_name time: `printf %02d $hrs`:`printf %02d $min`:`printf %02d $sec`
+
+  [[ $failCheck = true ]] && exit 1
+  exit 0
 
 }

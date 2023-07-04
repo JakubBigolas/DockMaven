@@ -1,0 +1,2 @@
+class DmvnError(RuntimeError):
+    pass
