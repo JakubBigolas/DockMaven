@@ -3,6 +3,7 @@ from copy import deepcopy
 from modules.dock_maven.error import DmvnError
 from .option.option_handler_abstract import OptionHandlerAbstract
 from .option.option_build_handler import OptionBuildHandler
+from .option.option_help_handler import OptionHelpHandler
 from .option.option_list_handler import OptionListHandler
 from .option.option_param_handler import OptionParamHandler
 
@@ -13,6 +14,7 @@ class OptionsResolver:
             OptionBuildHandler(),
             OptionListHandler(),
             OptionParamHandler(),
+            OptionHelpHandler(),
         ]
 
 

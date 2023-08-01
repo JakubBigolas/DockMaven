@@ -1,0 +1,31 @@
+root:
+  options:
+    - mvn-container-env-app-name: "*.jar"
+    - mvn-container-env-build-cmd: "mvn clean install"
+    - mvn-container-env-build-profiles: ""
+    - mvn-container-env-target-dir: "/target"
+
+  client:
+    projects:
+      options:
+        - mvn-container-env-build-cmd: "mvn clean install"
+        - mvn-image-name: "common-maven-builder-openjdk-17"
+        - package: "client/service"
+      
+      service-1:
+        options:
+          - app-name: "service-1"
+          - src-path: "${PROJECT_SRC_DIR}/service-1"
+          - target-path: "${DOCKER_IMAGES_DIR}/images/client/service/service-1"
+        quick-build:
+          options:
+            - mvn-container-env-build-cmd: "mvn clean -Dhttps.protocols=TLSv1.2 install -f pom.xml -Pdocker-builder -DskipTests -Dmaven.test.skip=true"
+
+      service-2:
+        options:
+          - app-name: "service-2"
+          - src-path: "${PROJECT_SRC_DIR}/service-2"
+          - target-path: "${DOCKER_IMAGES_DIR}/images/client/service/service-2"
+        quick-build:
+          options:
+            - mvn-container-env-build-cmd: "mvn clean -Dhttps.protocols=TLSv1.2 install -f pom.xml -Pdocker-builder -DskipTests -Dmaven.test.skip=true"

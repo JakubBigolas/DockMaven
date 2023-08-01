@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from modules.dock_maven.error import DmvnError
+from .runner.option_help_runner_handler import OptionHelpRunnerHandler
 from .runner.options_runner_handler_abstract import OptionsRunnerHandlerAbstract
 from ...data.option_data import OptionData
 
@@ -15,7 +16,8 @@ class OptionsRunnerResolver:
         self.__handlers: list = [
             OptionBuildRunnerHandler(),
             OptionListRunnerHandler(),
-            OptionParamRunnerHandler()
+            OptionParamRunnerHandler(),
+            OptionHelpRunnerHandler()
         ]
 
     def resolve(self, option: OptionData) -> OptionsRunnerHandlerAbstract:

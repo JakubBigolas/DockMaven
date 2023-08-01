@@ -1,5 +1,6 @@
 import os
 import shutil
+from pathlib import Path
 
 from config import get_app_config
 
@@ -9,6 +10,16 @@ class AppContext:
     def __init__(self, context_path: str):
         self.__context_path = context_path
         self.__projects_dir = context_path + "/projects"
+
+
+
+    def ensure_configs_exists(self):
+        if not os.path.isdir(self.__projects_dir):
+            os.makedirs(self.__projects_dir)
+        configs_yaml = Path(self.__projects_dir + "/configs.yaml")
+        if not configs_yaml.exists():
+            with open(configs_yaml, "w") as f:
+                f.write("")
 
 
 
