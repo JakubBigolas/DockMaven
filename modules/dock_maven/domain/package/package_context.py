@@ -111,6 +111,11 @@ class PackageContext:
 
 
 
+    def is_package_buildable(self, package: str) -> bool:
+        return self.check_missing_params(self.read_params(package))["required"] == 0
+
+
+
     def param_names(self) -> dict:
         return {
             "required": [

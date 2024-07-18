@@ -10,14 +10,18 @@ class OptionListRunnerHandler(OptionsRunnerHandlerAbstract):
         option: OptionListData = option
         packages = PackageContext()
         configs = packages.read_configs(option.package)
-        self.print_package(packages, configs, packages.split_package(option.package), option.print_options)
+        self.print_package(packages, configs, packages.split_package(option.package), option.print_options, option.print_buildable)
 
 
 
-    def print_package(self, packages: PackageContext, configs: dict, package: list, print_options: bool):
-        print(packages.list_to_package(package))
-        self.print_options(configs, print_options)
-        self.print_sub_package(packages, configs, package, print_options)
+    def print_package(self, packages: PackageContext, configs: dict, package: list, print_options: bool, print_buildable: bool):
+        package_str = packages.list_to_package(package)
+
+        if not print_buildable or packages.is_package_buildable(package_str):
+            print(package_str)
+            self.print_options(configs, print_options)
+
+        self.print_sub_package(packages, configs, package, print_options, print_buildable)
 
 
 
@@ -32,12 +36,12 @@ class OptionListRunnerHandler(OptionsRunnerHandlerAbstract):
 
 
 
-    def print_sub_package(self, packages: PackageContext, configs: dict, package: list, print_options: bool):
+    def print_sub_package(self, packages: PackageContext, configs: dict, package: list, print_options: bool, print_buildable: bool):
         for config in configs:
             if config != "options":
                 sub_package = list(package)
                 sub_package.append(config)
-                self.print_package(packages, configs[config], sub_package, print_options)
+                self.print_package(packages, configs[config], sub_package, print_options, print_buildable)
 
 
 

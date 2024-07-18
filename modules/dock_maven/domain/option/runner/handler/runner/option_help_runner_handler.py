@@ -16,6 +16,8 @@ class OptionHelpRunnerHandler(OptionsRunnerHandlerAbstract):
         print("")
         print("Options:")
         print("  list                  print selected package and subpackages")
+        print("    -o                    print declared options for each package")
+        print("    -b                    print only buildable packages (with all required params)")
         print("  param list            print all params collected for selected package")
         print("  param inspect         print all params collected for selected package")
         print("                        and info about missing required/optional params")
